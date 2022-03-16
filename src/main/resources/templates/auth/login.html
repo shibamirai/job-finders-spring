@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html
+	lang="ja"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/guest}"
+>
+<head>
+	<title>ログイン</title>
+</head>
+<body>
+	<div layout:fragment="content">
+
+		<div th:replace="~{components/auth-card :: layout(~{ :: logo}, ~{ :: slot})}">
+
+			<div th:fragment="logo" th:remove="tag">
+
+				<a th:href="@{/}">
+					<img th:replace="~{components/application-logo :: logo(class=w-48)}"></img>
+				</a>
+
+			</div>
+
+			<div th:fragment="slot" th:remove="tag">
+
+				<div th:replace="~{components/auth-card :: validation-errors}"></div>
+
+				<form method="post" th:action="@{/login}">
+					<div>
+						<label th:replace="~{components/form :: label(for=email, value=メールアドレス)}"></label>
+						<input th:replace="~{components/form :: input(type=email, name=email, value='', class='block mt-1 w-full', required=true, autofocus=true)}">
+					</div>
+					<div class="mt-4">
+						<label th:replace="~{components/form :: label(for='password', value='パスワード')}"></label>
+						<input th:replace="~{components/form :: input(type=password, name=password, value='', class='block mt-1 w-full', required=true)}">
+				    </div>
+				    <div class="flex items-center justify-end mt-4">
+				        <button type="submit"
+				            class="
+				                ml-3
+				                inline-flex justify-center px-4 py-2
+				                bg-cyan-500
+				                border border-transparent
+				                rounded-md
+				                text-white uppercase tracking-widest
+				                hover:bg-cyan-600
+				                active:bg-cyan-700
+				                focus:outline-none focus:border-cyan-300 focus:ring ring-cyan-200 focus:ring-opacity-50
+				                disabled:opacity-25
+				                transition ease-in-out duration-150
+				            "
+				        >
+				            ログイン
+				        </button>
+				    </div>
+				</form>
+			</div>
+
+		</div>
+
+	</div>
+</body>
+</html>

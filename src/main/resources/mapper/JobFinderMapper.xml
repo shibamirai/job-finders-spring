@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="katachi.jobfinders.repository.JobFinderMapper">
+
+	<resultMap type="katachi.jobfinders.domain.model.Work" id="work">
+		<id column="id" property="id"></id>
+		<result column="job_finder_id" property="jobFinderId"></result>
+		<result column="content" property="content"></result>
+		<result column="title" property="title"></result>
+		<result column="url" property="url"></result>
+		<result column="languages" property="languages"></result>
+		<result column="creation_time" property="creationTime"></result>
+		<result column="description" property="description"></result>
+		<result column="created_at" property="createdAt"></result>
+		<result column="updated_at" property="updatedAt"></result>
+	</resultMap>
+
+	<resultMap type="katachi.jobfinders.domain.model.JobFinder" id="jobFinder">
+		<id column="id" property="id"></id>
+		<result column="avatar" property="avatar"></result>
+		<result column="name" property="name"></result>
+		<result column="gender" property="gender"></result>
+		<result column="age" property="age"></result>
+		<result column="handicap" property="handicap"></result>
+		<result column="has_certificate" property="hasCertificate"></result>
+		<result column="use_from" property="useFrom"></result>
+		<result column="skills" property="skills"></result>
+		<result column="occupation" property="occupation"></result>
+		<result column="description" property="description"></result>
+		<result column="hired_at" property="hiredAt"></result>
+		<result column="employment_pattern" property="employmentPattern"></result>
+		<result column="is_handicaps_opened" property="isHandicapsOpened"></result>
+		<result column="created_at" property="createdAt"></result>
+		<result column="updated_at" property="updatedAt"></result>
+		<collection property="works" resultMap="work" columnPrefix="works_"></collection>
+	</resultMap>
+
+	<select id="getCount" resultType="java.lang.Integer">
+		SELECT
+			COUNT(*)
+		FROM job_finders
+		<where>
+			<if test="search != null">
+				name LIKE CONCAT('%', #{search}, '%')
+				OR occupation LIKE CONCAT('%', #{search}, '%')
+			</if>
+		</where>
+	</select>
+
+	<select id="selectAll" resultType="JobFinder">
+		SELECT
+			job_finders.*,
+			(SELECT count(*) FROM works WHERE job_finders.id = works.job_finder_id) AS works_count
+		FROM job_finders
+		ORDER BY hired_at DESC
+	</select>
+
+	<select id="pagenate" resultType="JobFinder">
+		SELECT
+			job_finders.*,
+			(SELECT count(*) FROM works WHERE job_finders.id = works.job_finder_id) AS works_count
+		FROM job_finders
+		<where>
+			<if test="search != null">
+				name LIKE CONCAT('%', #{search}, '%')
+				OR occupation LIKE CONCAT('%', #{search}, '%')
+			</if>
+		</where>
+		ORDER BY hired_at DESC
+		LIMIT #{limit}
+		OFFSET #{offset}
+	</select>
+
+	<select id="selectById" resultMap="jobFinder">
+		SELECT
+			job_finders.id,
+			job_finders.avatar,
+			job_finders.name,
+			job_finders.gender,
+			job_finders.age,
+			job_finders.handicap,
+			job_finders.has_certificate,
+			job_finders.use_from,
+			job_finders.skills,
+			job_finders.occupation,
+			job_finders.description,
+			job_finders.hired_at,
+			job_finders.employment_pattern,
+			job_finders.is_handicaps_opened,
+			job_finders.created_at,
+			job_finders.updated_at,
+			works.id			as works_id,
+			works.job_finder_id	as works_job_finder_id,
+			works.content		as works_content,
+			works.title			as works_title,
+			works.url			as works_url,
+			works.languages		as works_languages,
+			works.creation_time	as works_creationTime,
+			works.description	as works_description,
+			works.created_at	as works_createdAt,
+			works.updated_at	as works_updatedAt
+		FROM job_finders
+			LEFT JOIN works ON job_finders.id = works.job_finder_id
+		WHERE job_finders.id = #{id}
+	</select>
+</mapper>

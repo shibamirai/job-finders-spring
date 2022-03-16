@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html
+	lang="ja"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title layout:title-pattern="$CONTENT_TITLE"></title>
+
+	<!-- Fonts -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+
+	<!-- Styles -->
+	<link rel="stylesheet" th:href="@{/css/app.css}">
+
+	<!-- Scripts -->
+	<script th:src="@{/js/app.js}" defer></script>
+	<script src="//unpkg.com/alpinejs" defer></script>
+</head>
+<body class="font-sans antialiased">
+	<div class="min-h-screen bg-gray-100">
+		<div th:replace="~{layout/navigation}"></div>
+
+		<!-- Page Heading -->
+		<header class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+			<h1 class="text-xl font-bold text-center tracking-widest">
+				<span layout:fragment="header" th:remove="tag"></span>
+			</h1>
+		</header>
+
+		<!-- Page Content -->
+		<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div layout:fragment="content" th:remove="tag"></div>
+		</main>
+	</div>
+
+<!--     <div th:replace=~{components/flash})></div> -->
+</body>
+
+</html>

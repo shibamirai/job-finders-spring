@@ -1,0 +1,95 @@
+<div th:fragment="card(jobFinder)" th:remove="tag">
+	<div class="col-span-2 mx-4 mb-6">
+		<p class="text-gray-600 text-sm font-semibold" th:text="${#temporals.format(jobFinder.hiredAt, 'yyyy年M月')}"></p>
+
+		<div class="bg-white rounded-2xl px-6 py-6">
+			<header class="flex items-center">
+				<img th:src="@{/avatar/} + ${jobFinder.avatar}" alt="" class="rounded-full mr-4 w-16 border border-gray-00">
+				<div>
+					<p class="text-sm" th:text="|${jobFinder.age}歳 ${jobFinder.gender().label}"></p>
+					<p class="text-xl font-bold text-cyan-500 tracking-wider" th:text="${jobFinder.occupation}"></p>
+					<p class="text-sm" th:text="${jobFinder.description}"></p>
+				</div>
+			</header>
+
+			<div class="mt-6 text-sm">
+				<table class="w-full">
+					<tr class="border-y-2">
+						<th class="text-left font-bold px-4 py-2">障害</th>
+						<td th:text="${jobFinder.handicap().label} + '(手帳' + ${jobFinder.hasCertificate ? 'あり' : 'なし'} + ')'"></td>
+					</tr>
+					<tr class="border-y-2">
+						<th class="text-left font-bold px-4 py-2">利用期間</th>
+						<td th:text="${jobFinder.periodOfUse}"></td>
+					</tr>
+					<tr class="border-y-2">
+						<th class="text-left font-bold px-4 py-2">習得スキル</th>
+						<td th:text="${jobFinder.skills}"></td>
+					</tr>
+					<tr class="border-y-2">
+						<th class="text-left font-bold px-4 py-2">雇用形態</th>
+						<td th:text="${jobFinder.employmentPattern().label} + '(' + ${jobFinder.isHandicapsOpened ? 'オープン' : 'クローズ'} + '就労)'"></td>
+					</tr>
+				</table>
+			</div>
+
+			<a th:href="@{/job-finders/__${jobFinder.id}__}">
+				<button th:replace="~{components/form :: button(label=ポートフォリオを見る, class='rounded-full w-full justify-center mt-8', disabled=${jobFinder.worksCount <= 0})}"></button>
+			</a>
+		</div>
+	</div>
+</div>
+
+<div th:fragment="description(jobFinder, isEditing)" th:remove="tag">
+	<div class="lg:flex border border-white">
+		<div class="flex-1 lg:px-10 py-8">
+			<div class="pl-4">
+				<div th:if="${isEditing}" class="flex items-center">
+					<img th:src="@{/avatar/} + ${jobFinder.avatar}" alt="" class="rounded-full mr-4 w-16 border border-gray-00">
+					<div>
+						<div class="flex items-center">
+							<p class="text-xl font-bold mr-4" th:text="${jobFinder.name}"></p>
+							<p class="text-sm" th:text="|${jobFinder.age}歳　${jobFinder.gender().label}|"></p>
+						</div>
+						<p class="text-xl font-bold text-cyan-500 tracking-wider" th:text="${jobFinder.occupation}"></p>
+					</div>
+				</div>
+				<th:block th:unless="${isEditing}">
+					<img th:src="@{/avatar/} + ${jobFinder.avatar}" alt="" class="rounded-full w-48 border-4 border-gray-500">
+					<p class="relative left-14" th:text="|${jobFinder.age}歳　${jobFinder.gender().label}|"></p>
+					<p class="text-2xl font-bold text-cyan-500 tracking-wider py-1" th:text="${jobFinder.occupation}"></p>
+				</th:block>
+				<p th:text="${jobFinder.description}"></p>
+			</div>
+			<div class="mt-6">
+				<table class="w-full">
+					<tr class="border-y-2">
+						<th class="text-left font-bold px-4 py-2">障害</th>
+						<td th:text="${jobFinder.handicap().label} + '(手帳' + ${jobFinder.hasCertificate ? 'あり' : 'なし'} + ')'"></td>
+					</tr>
+					<tr class="border-y-2">
+						<th class="text-left font-bold px-4 py-2">利用期間</th>
+						<td th:text="${jobFinder.periodOfUse}"></td>
+					</tr>
+					<tr class="border-y-2">
+						<th class="text-left font-bold px-4 py-2">就職時期</th>
+						<td th:text="${#temporals.format(jobFinder.hiredAt, 'yyyy年M月')}"></td>
+					</tr>
+					<tr class="border-y-2">
+						<th class="text-left font-bold px-4 py-2">習得スキル</th>
+						<td th:text="${jobFinder.skills}"></td>
+					</tr>
+					<tr class="border-y-2">
+						<th class="text-left font-bold px-4 py-2">雇用形態</th>
+						<td th:text="${jobFinder.employmentPattern().label} + '(' + ${jobFinder.isHandicapsOpened ? 'オープン' : 'クローズ'} + '就労)'"></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="flex-1 lg:px-10 py-8">
+			<th:block th:each="work: ${jobFinder.works}">
+				<div th:replace="~{components/portfolio :: card(${work})}"></div>
+			</th:block>
+		</div>
+	</div>
+</div>

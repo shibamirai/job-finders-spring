@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="katachi.jobfinders.repository.UserMapper">
+
+  <!-- ログインユーザー情報取得 -->
+  <select id="findLoginUser" resultType="User">
+    select
+      *
+    from
+      users
+    where
+      email = #{email}
+  </select>
+</mapper>

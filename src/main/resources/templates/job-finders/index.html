@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/app}"
+>
+<head>
+	<title>就職者情報</title>
+</head>
+<body>
+	<span layout:fragment="header">就職者さんのデータ・ポートフォリオ</span>
+	<div layout:fragment="content">
+		<div class="lg:grid lg:grid-cols-6">
+			<th:block th:each="jobFinder: ${jobFinders}">
+				<div th:replace="~{components/job-finder :: card(${jobFinder})}"></div>
+			</th:block>
+		</div>
+
+		<div th:replace="~{components/pagination :: pagination(${jobFinders})}"></div>
+	</div>
+</body>
+</html>
