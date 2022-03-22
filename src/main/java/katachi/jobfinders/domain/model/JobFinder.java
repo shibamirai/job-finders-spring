@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class JobFinder {
-	private int id;
+	private Integer id;
 	private String avatar;
 	private String name;
 	private int gender;

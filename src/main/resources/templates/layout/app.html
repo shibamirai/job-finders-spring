@@ -22,7 +22,28 @@
 	<script src="//unpkg.com/alpinejs" defer></script>
 </head>
 <body class="font-sans antialiased">
-	<div class="min-h-screen bg-gray-100">
+	<div class="min-h-screen bg-gray-100"
+		th:with="
+			classForLabel='block font-medium text-sm text-gray-700',
+			classForError='text-red-500 text-xs mt-1',
+			classForInput='
+				rounded-md shadow-sm border-gray-300
+				focus:border-cyan-300 focus:ring focus:ring-cyan-200 focus:ring-opacity-50
+			',
+			classForRadio='
+				text-cyan-500 border-gray-300
+				focus:border-cyan-300 focus:ring focus:ring-cyan-200 focus:ring-opacity-50
+			',
+			classForButton='
+				inline-flex justify-center px-4 py-2 bg-cyan-500 border border-transparent rounded-md text-white uppercase tracking-widest
+				hover:bg-cyan-600
+				active:bg-cyan-700
+				focus:outline-none focus:border-cyan-300 focus:ring ring-cyan-200 focus:ring-opacity-50
+				disabled:opacity-25
+				transition ease-in-out duration-150
+			'
+		"
+	>
 		<div th:replace="~{layout/navigation}"></div>
 
 		<!-- Page Heading -->
@@ -36,9 +57,10 @@
 		<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 			<div layout:fragment="content" th:remove="tag"></div>
 		</main>
+
+		<div th:replace="~{components/flash}"></div>
 	</div>
 
-<!--     <div th:replace=~{components/flash})></div> -->
 </body>
 
 </html>

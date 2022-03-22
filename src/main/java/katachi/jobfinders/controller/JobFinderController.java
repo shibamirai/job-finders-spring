@@ -21,6 +21,7 @@ import katachi.jobfinders.domain.model.JobFinder;
 import katachi.jobfinders.domain.model.JobFinderSearchParam;
 import katachi.jobfinders.domain.model.Paginator;
 import katachi.jobfinders.domain.service.JobFinderService;
+import katachi.jobfinders.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -66,8 +67,8 @@ public class JobFinderController {
 
 	@GetMapping("job-finders/{id}")
 	public String show(@PathVariable("id") int id, Model model) {
-		JobFinder jobFinder = jobFinderService.getById(id);
-		model.addAttribute("jobFinder", jobFinder);
+		Optional<JobFinder> jobFinder = jobFinderService.getById(id);
+		model.addAttribute("jobFinder", jobFinder.orElseThrow(NotFoundException::new));
 
 		return "job-finders/show";
 	}

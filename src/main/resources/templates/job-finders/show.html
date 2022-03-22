@@ -11,15 +11,11 @@
 	<span layout:fragment="header">就職者さんのデータ・ポートフォリオ</span>
 
 	<div layout:fragment="content">
-		<div th:text="${jobFinder}">
-		</div>
-	</div>
-	<div layout:fragment="content">
 		<div class="bg-white rounded-lg px-10 py-8">
 			<div th:replace="~{components/job-finder :: description(jobFinder=${jobFinder}, isEditing=false)}"></div>
 			<div class="flex justify-center">
 				<a th:href="@{/job-finders}">
-					<button th:replace="~{components/form :: button(label=一覧へ戻る, type=button, class='rounded-full w-48')}"></button>
+					<button th:text="一覧へ戻る" type="button" th:class="${classForButton} + ' rounded-full w-48'"></button>
 				</a>
 			</div>
 		</div>

@@ -1,6 +1,7 @@
 package katachi.jobfinders.domain.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,8 +38,18 @@ public class JobFinderServiceImpl implements JobFinderService {
 	}
 
 	@Override
-	public JobFinder getById(int id) {
-		return mapper.selectById(id);
+	public Optional<JobFinder> getById(int id) {
+		return Optional.ofNullable(mapper.selectById(id));
+	}
+
+	@Override
+	public Optional<JobFinder> getByName(String name) {
+		return Optional.ofNullable(mapper.selectByName(name));
+	}
+
+	@Override
+	public void register(JobFinder jobFinder) {
+		mapper.insertOrUpdate(jobFinder);
 	}
 
 }

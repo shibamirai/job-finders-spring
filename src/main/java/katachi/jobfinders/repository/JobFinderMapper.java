@@ -14,4 +14,6 @@ public interface JobFinderMapper {
 	public Integer getCount(JobFinderSearchParam param);
 	public List<JobFinder> pagenate(JobFinderSearchParam param);
 	public JobFinder selectById(int id);
+	public JobFinder selectByName(String name);
+	void insertOrUpdate(JobFinder record);
 }

@@ -105,4 +105,86 @@
 			LEFT JOIN works ON job_finders.id = works.job_finder_id
 		WHERE job_finders.id = #{id}
 	</select>
+
+	<select id="selectByName" resultMap="jobFinder">
+		SELECT
+			job_finders.id,
+			job_finders.avatar,
+			job_finders.name,
+			job_finders.gender,
+			job_finders.age,
+			job_finders.handicap,
+			job_finders.has_certificate,
+			job_finders.use_from,
+			job_finders.skills,
+			job_finders.occupation,
+			job_finders.description,
+			job_finders.hired_at,
+			job_finders.employment_pattern,
+			job_finders.is_handicaps_opened,
+			job_finders.created_at,
+			job_finders.updated_at,
+			works.id			as works_id,
+			works.job_finder_id	as works_job_finder_id,
+			works.content		as works_content,
+			works.title			as works_title,
+			works.url			as works_url,
+			works.languages		as works_languages,
+			works.creation_time	as works_creationTime,
+			works.description	as works_description,
+			works.created_at	as works_createdAt,
+			works.updated_at	as works_updatedAt
+		FROM job_finders
+			LEFT JOIN works ON job_finders.id = works.job_finder_id
+		WHERE job_finders.name = #{name}
+	</select>
+
+	<insert id="insertOrUpdate" parameterType="katachi.jobfinders.domain.model.JobFinder">
+		INSERT INTO job_finders (
+			id,
+			avatar,
+			name,
+			gender,
+			age,
+			handicap,
+			has_certificate,
+			use_from,
+			skills,
+			occupation,
+			description,
+			hired_at,
+			employment_pattern,
+			is_handicaps_opened
+		) VALUES (
+			#{id},
+			#{avatar},
+			#{name},
+			#{gender},
+			#{age},
+			#{handicap},
+			#{hasCertificate},
+			#{useFrom},
+			#{skills},
+			#{occupation},
+			#{description},
+			#{hiredAt},
+			#{employmentPattern},
+			#{isHandicapsOpened}
+		)
+		ON DUPLICATE KEY UPDATE
+			avatar = VALUES(avatar),
+			name = VALUES(name),
+			gender = VALUES(gender),
+			age = VALUES(age),
+			handicap = VALUES(handicap),
+			has_certificate = VALUES(has_certificate),
+			use_from = VALUES(use_from),
+			skills = VALUES(skills),
+			occupation = VALUES(occupation),
+			description = VALUES(description),
+			hired_at = VALUES(hired_at),
+			employment_pattern = VALUES(employment_pattern),
+			is_handicaps_opened = VALUES(is_handicaps_opened)
+	</insert>
+
 </mapper>

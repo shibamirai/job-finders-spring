@@ -34,7 +34,8 @@
 			</div>
 
 			<a th:href="@{/job-finders/__${jobFinder.id}__}">
-				<button th:replace="~{components/form :: button(label=ポートフォリオを見る, class='rounded-full w-full justify-center mt-8', disabled=${jobFinder.worksCount <= 0})}"></button>
+				<button th:text="ポートフォリオを見る" th:class="${classForButton} + ' rounded-full w-full justify-center mt-8'" th:disabled="${jobFinder.worksCount <= 0}"></button>
+<!-- 				<button th:replace="~{components/form :: _button(label=ポートフォリオを見る, class='rounded-full w-full justify-center mt-8', disabled=${jobFinder.worksCount <= 0})}"></button> -->
 			</a>
 		</div>
 	</div>
@@ -91,5 +92,152 @@
 				<div th:replace="~{components/portfolio :: card(${work})}"></div>
 			</th:block>
 		</div>
+	</div>
+</div>
+
+<div th:fragment="form" th:remove="tag"
+	th:with="
+		action = ${jobFinder} ? '/admin/job-finders/{id}(id=' + ${jobFinder.id} + ')': '/admin/job-finders',
+		method = ${jobFinder} ? 'PATCH' : 'POST',
+	"
+>
+	<div class="max-w-4xl mx-auto bg-white shadow-md rounded px-10 py-8">
+		<h1 class="text-xl text-cyan-500 text-center font-bold">利用者さんについて</h1>
+
+		<form th:action="@{__${action}__}" th:method="__${method}__" th:object="${jobFinderForm}">
+
+			<!-- アバター -->
+			<div class="mt-4 md:grid md:grid-cols-6 items-center">
+				<label for="avatar" th:text="アバターを選ぶ" th:class="${classForLabel}"></label>
+				<div class="col-span-5 flex flex-wrap items-center">
+					<div th:each="avatar: ${avatars}">
+						<div class="text-center mr-2">
+							<img th:src="@{/avatar/} + ${avatar}" alt="avatar" class="w-16 rounded-full">
+							<input type="radio" th:field="*{avatar}" th:value="${avatar}" th:class="${classForRadio}" autofocus>
+						</div>
+					</div>
+				</div>
+				<p th:errors="*{avatar}" th:class="${classForError}"></p>
+			</div>
+
+			<!-- 名前 -->
+			<div class="mt-4 md:grid md:grid-cols-6 items-center">
+				<label for="name" th:text="名前" th:class="${classForLabel}"></label>
+				<input
+					type="text" th:field="*{name}" th:class="${classForInput} + ' col-span-5'"
+					placeholder="非公開" th:readonly="${jobFinder != null}" th:required="${jobFinder == null}"
+				>
+				<p th:errors="*{name}" th:class="${classForError} + ' col-start-2 col-span-5'"></p>
+			</div>
+
+			<!-- 性別 -->
+			<div class="mt-4 md:grid md:grid-cols-6 items-center">
+				<label for="gender" th:text="性別" th:class="${classForLabel}"></label>
+				<div class="col-span-5 flex flex-wrap items-center">
+					<div th:each="gender: ${genders}">
+						<input type="radio" th:field="*{gender}" th:value="${gender.name()}" th:class="${classForRadio}">
+						<label class="ml-2 mr-4" th:text="${gender.label}"></label>
+					</div>
+				</div>
+				<p th:errors="*{gender}" th:class="${classForError} + ' col-start-2 col-span-5'"></p>
+			</div>
+
+			<!-- 年齢 -->
+			<div class="mt-4 md:grid md:grid-cols-6 items-center">
+				<label for="age" th:text="年齢" th:class="${classForLabel}"></label>
+				<input type="number" th:field="*{age}" th:class="${classForInput} + ' col-start-2'" required>
+				<div class="ml-2">歳</div>
+				<p th:errors="*{age}" th:class="${classForError} + ' col-start-2 col-span-5'"></p>
+			</div>
+
+			<!-- 障害 -->
+			<div class="mt-4 md:grid md:grid-cols-6 items-center">
+				<label for="handicap" th:text="障害" th:class="${classForLabel}"></label>
+				<div class="col-span-5 flex flex-wrap items-center">
+					<div th:each="handicap: ${handicaps}">
+						<input type="radio" th:field="*{handicap}" th:value="${handicap.name()}" th:class="${classForRadio}">
+						<label class="ml-2 mr-4" th:text="${handicap.label}"></label>
+					</div>
+				</div>
+				<p th:errors="*{handicap}" th:class="${classForError} + ' col-start-2 col-span-5'"></p>
+			</div>
+
+			<!-- 手帳有無 -->
+			<div class="mt-4 md:grid md:grid-cols-6 items-center">
+				<label for="hasCertificate" th:text="手帳有無" th:class="${classForLabel}"></label>
+				<div class="col-span-5 flex flex-wrap items-center">
+					<input type="checkbox" th:field="*{hasCertificate}" th:class="${classForRadio}">
+					<label class="ml-2 mr-4" th:text="手帳あり"></label>
+				</div>
+				<p th:errors="*{hasCertificate}" th:class="${classForError} + ' col-start-2 col-span-5'"></p>
+			</div>
+
+			<!-- 利用開始日 -->
+			<div class="mt-4 md:grid md:grid-cols-6 items-center">
+				<label for="useFrom" th:text="利用開始日" th:class="${classForLabel}"></label>
+				<input type="date" th:field="*{useFrom}" th:class="${classForInput} + ' col-span-2'" required>
+				<p th:errors="*{useFrom}" th:class="${classForError} + ' col-start-2 col-span-5'"></p>
+			</div>
+
+			<!-- 習得スキル -->
+			<div class="mt-4 md:grid md:grid-cols-6 items-center">
+				<label for="skills" th:text="習得スキル" th:class="${classForLabel}"></label>
+				<input type="text" th:field="*{skills}" th:class="${classForInput} + ' col-span-5'"
+					placeholder="PHP, Javaなど">
+				<p th:errors="*{skills}" th:class="${classForError} + ' col-start-2 col-span-5'"></p>
+			</div>
+
+			<h1 class="text-xl text-cyan-500 text-center font-bold mt-10">就職先について</h1>
+
+			<!-- 職種 -->
+			<div class="mt-4 md:grid md:grid-cols-6 items-center">
+				<label for="occupation" th:text="職種" th:class="${classForLabel}"></label>
+				<input type="text" th:field="*{occupation}" th:class="${classForInput} + ' col-span-5'"
+					placeholder="プログラマ, エンジニア, コーダ, デザイナ などはIT系に分類されます" required>
+				<p th:errors="*{occupation}" th:class="${classForError} + ' col-start-2 col-span-5'"></p>
+			</div>
+
+			<!-- 仕事内容 -->
+			<div class="mt-4 md:grid md:grid-cols-6 items-center">
+				<label for="description" th:text="仕事内容" th:class="${classForLabel}"></label>
+				<input type="text" th:field="*{description}" th:class="${classForInput} + ' col-span-5'"
+					placeholder="システム開発, Webサイト構築など">
+				<p th:errors="*{description}" th:class="${classForError} + ' col-start-2 col-span-5'"></p>
+			</div>
+
+			<!-- 就労開始日 -->
+			<div class="mt-4 md:grid md:grid-cols-6 items-center">
+				<label for="hiredAt" th:text="就労開始日" th:class="${classForLabel}"></label>
+				<input type="date" th:field="*{hiredAt}" th:class="${classForInput} + ' col-span-2'" required>
+				<p th:errors="*{hiredAt}" th:class="${classForError} + ' col-start-2 col-span-5'"></p>
+			</div>
+
+			<!-- 雇用形態 -->
+			<div class="mt-4 md:grid md:grid-cols-6 items-center">
+				<label for="employmentPattern" th:text="雇用形態" th:class="${classForLabel}"></label>
+				<div class="col-span-5 flex flex-wrap items-center">
+					<div th:each="employmentPattern: ${employmentPatterns}">
+						<input type="radio" th:field="*{employmentPattern}" th:value="${employmentPattern.name()}" th:class="${classForRadio}">
+						<label class="ml-2 mr-4" th:text="${employmentPattern.label}"></label>
+					</div>
+				</div>
+				<p th:errors="*{employmentPattern}" th:class="${classForError} + ' col-start-2 col-span-5'"></p>
+			</div>
+
+			<!-- 就労スタイル -->
+			<div class="mt-4 md:grid md:grid-cols-6 items-center">
+				<label for="isHandicapsOpened" th:text="就労スタイル" th:class="${classForLabel}"></label>
+				<div class="col-span-5 flex flex-wrap items-center">
+					<input type="checkbox" th:field="*{isHandicapsOpened}" th:class="${classForRadio}">
+					<label class="ml-2 mr-4" th:text="オープン就労"></label>
+				</div>
+				<p th:errors="*{isHandicapsOpened}" th:class="${classForError} + ' col-start-2 col-span-5'"></p>
+			</div>
+
+			<div class="text-center mt-8">
+				<button th:text="${jobFinder == null ? '登録' : '更新'}" th:class="${classForButton} + ' rounded-full px-16'"></button>
+			</div>
+
+		</form>
 	</div>
 </div>
