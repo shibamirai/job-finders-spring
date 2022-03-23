@@ -13,10 +13,11 @@ import katachi.jobfinders.domain.model.EmploymentPattern;
 import katachi.jobfinders.domain.model.Gender;
 import katachi.jobfinders.domain.model.Handicap;
 import katachi.jobfinders.domain.model.JobFinder;
-import katachi.jobfinders.validation.constraints.Unique;
+import katachi.jobfinders.validation.constraints.UniqueJobFinderName;
 import lombok.Data;
 
 @Data
+@UniqueJobFinderName
 public class JobFinderForm {
 	private Integer id;
 
@@ -24,7 +25,6 @@ public class JobFinderForm {
 	private String avatar;
 
 	@NotBlank
-	@Unique
 	private String name;
 
 	@NotNull

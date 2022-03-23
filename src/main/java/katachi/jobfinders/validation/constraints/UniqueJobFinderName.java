@@ -10,20 +10,20 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 @Documented
-@Constraint(validatedBy = {UniqueValidator.class})
-@Target({ElementType.FIELD})
+@Constraint(validatedBy = {UniqueJobFinderNameValidator.class})
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Unique {
+public @interface UniqueJobFinderName {
 
 	String message() default "その名前は既に使用されています";
-	int ignore() default 0;
 	Class<?>[] groups() default {};
 	Class<? extends Payload>[] payload() default {};
 
 	@Documented
-	@Target({ElementType.FIELD})
+	@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface List {
-		Unique[] value();
+		UniqueJobFinderName[] value();
 	}
+
 }
