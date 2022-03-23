@@ -98,13 +98,14 @@
 <div th:fragment="form" th:remove="tag"
 	th:with="
 		action = ${jobFinder} ? '/admin/job-finders/{id}(id=' + ${jobFinder.id} + ')': '/admin/job-finders',
-		method = ${jobFinder} ? 'PATCH' : 'POST',
+		method = ${jobFinder} ? 'patch' : 'post',
 	"
 >
 	<div class="max-w-4xl mx-auto bg-white shadow-md rounded px-10 py-8">
 		<h1 class="text-xl text-cyan-500 text-center font-bold">利用者さんについて</h1>
 
 		<form th:action="@{__${action}__}" th:method="__${method}__" th:object="${jobFinderForm}">
+			<input type="hidden" th:field="*{id}">
 
 			<!-- アバター -->
 			<div class="mt-4 md:grid md:grid-cols-6 items-center">

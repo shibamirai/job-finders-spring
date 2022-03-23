@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -132,4 +133,21 @@ public class AdminJobFinderController {
 		}
 		return "admin/job-finders/edit";
 	}
+
+	@PatchMapping("/{id}")
+	public String update(@PathVariable int id, @ModelAttribute @Validated JobFinderForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors()) {
+			Optional<JobFinder> jobFinder = jobFinderService.getById(id);
+			redirectAttributes.addFlashAttribute(jobFinder.orElseThrow(NotFoundException::new));
+			redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "jobFinderForm", bindingResult);
+			redirectAttributes.addFlashAttribute(form);
+			return "redirect:/admin/job-finders/create";
+		}
+
+		jobFinderService.register(form.toJobFinder());
+
+		redirectAttributes.addFlashAttribute("success", form.getName() + "さんの情報を更新しました");
+		return "redirect:/admin/job-finders";
+	}
+
 }

@@ -18,6 +18,8 @@ import lombok.Data;
 
 @Data
 public class JobFinderForm {
+	private Integer id;
+
 	@NotBlank
 	private String avatar;
 
@@ -62,6 +64,7 @@ public class JobFinderForm {
 	}
 
 	public JobFinderForm(JobFinder jobFinder) {
+		this.id = jobFinder.getId();
 		this.avatar = jobFinder.getAvatar();
 		this.name = jobFinder.getName();
 		this.gender = jobFinder.gender();
@@ -78,8 +81,8 @@ public class JobFinderForm {
 
 	public JobFinder toJobFinder() {
 		return new JobFinder(
-			avatar, name, gender, age, handicap, hasCertificate, useFrom, skills, occupation, description, hiredAt,
-			employmentPattern, isHandicapsOpened
+			id, avatar, name, gender, age, handicap, hasCertificate, useFrom, skills, occupation, description,
+			hiredAt, employmentPattern, isHandicapsOpened
 		);
 	}
 }

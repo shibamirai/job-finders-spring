@@ -33,6 +33,7 @@ public class JobFinder {
 	private List<Work> works;
 
 	public JobFinder(
+		Integer id,
 		String avatar,
 		String name,
 		Gender gender,
@@ -47,6 +48,7 @@ public class JobFinder {
 		EmploymentPattern employmentPattern,
 		boolean isHandicapsOpened
 	) {
+		this.id = id;
 		this.avatar = avatar;
 		this.name = name;
 		this.gender = gender.getCode();
