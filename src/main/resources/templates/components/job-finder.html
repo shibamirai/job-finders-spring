@@ -35,7 +35,6 @@
 
 			<a th:href="@{/job-finders/__${jobFinder.id}__}">
 				<button th:text="ポートフォリオを見る" th:class="${classForButton} + ' rounded-full w-full justify-center mt-8'" th:disabled="${jobFinder.worksCount <= 0}"></button>
-<!-- 				<button th:replace="~{components/form :: _button(label=ポートフォリオを見る, class='rounded-full w-full justify-center mt-8', disabled=${jobFinder.worksCount <= 0})}"></button> -->
 			</a>
 		</div>
 	</div>

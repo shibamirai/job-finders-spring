@@ -15,8 +15,10 @@ import katachi.jobfinders.domain.model.Handicap;
 import katachi.jobfinders.domain.model.JobFinder;
 import katachi.jobfinders.validation.constraints.UniqueJobFinderName;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @UniqueJobFinderName
 public class JobFinderForm {
 	private Integer id;
@@ -59,9 +61,6 @@ public class JobFinderForm {
 	private EmploymentPattern employmentPattern;
 
 	private boolean isHandicapsOpened = true;
-
-	public JobFinderForm() {
-	}
 
 	public JobFinderForm(JobFinder jobFinder) {
 		this.id = jobFinder.getId();

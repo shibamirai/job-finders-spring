@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -84,5 +85,11 @@ public class JobFinder {
 			periodOfUse = period.get(ChronoUnit.YEARS) + "年" + periodOfUse;
 		}
 		return periodOfUse;
+	}
+
+	public Optional<Work> getWork(int workId) {
+		return works.stream()
+				.filter(work -> work.getId().intValue() == workId)
+				.findFirst();
 	}
 }

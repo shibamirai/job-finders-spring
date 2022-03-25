@@ -13,3 +13,93 @@
 		<p class="text-sm leading-5 mt-2 whitespace-pre-wrap" th:text="${work.description}"></p>
 	</article>
 </div>
+
+<div th:fragment="form" th:remove="tag"
+	th:with="
+		action = ${workForm.id} ? '/admin/job-finders/{id}/works/{workId}(id=' + ${jobFinder.id} + ',workId=' + ${workForm.id} + ')'
+								: '/admin/job-finders/{id}/works(id=' + ${jobFinder.id} + ')',
+		method = ${workForm.id} ? 'patch' : 'post',
+	"
+>
+	<div class="max-w-4xl mx-auto bg-white shadow-md rounded px-10 py-8 mb-4">
+		<h1 class="text-xl text-cyan-500 text-center font-bold">成果物（ポートフォリオ）について</h1>
+
+		<form th:action="@{__${action}__}" th:method="__${method}__" th:object="${workForm}">
+			<input type="hidden" th:field="*{id}">
+
+			<!-- 作品の内容 -->
+			<div class="mt-4 md:grid md:grid-cols-6 items-center">
+				<label for="content" th:text="作品の内容" th:class="${classForLabel}"></label>
+				<input
+					type="text" th:field="*{content}" th:class="${classForInput} + ' col-span-5'"
+					placeholder="旅行サイト、ポートフォリオサイトなど" required autofocus
+				>
+				<p th:errors="*{content}" th:class="${classForError} + ' col-start-2 col-span-5'"></p>
+			</div>
+
+			<!-- 作品名 -->
+			<div class="mt-4 md:grid md:grid-cols-6 items-center">
+				<label for="title" th:text="作品名" th:class="${classForLabel}"></label>
+				<input
+					type="text" th:field="*{title}" th:class="${classForInput} + ' col-span-5'"
+					placeholder="旅行サイト、ポートフォリオサイトなど"
+				>
+				<p th:errors="*{title}" th:class="${classForError} + ' col-start-2 col-span-5'"></p>
+			</div>
+
+			<!-- URL -->
+			<div class="mt-4 md:grid md:grid-cols-6 items-center">
+				<label for="url" th:text="URL" th:class="${classForLabel}"></label>
+				<input type="text" th:field="*{url}" th:class="${classForInput} + ' col-span-5'">
+				<p th:errors="*{url}" th:class="${classForError} + ' col-start-2 col-span-5'"></p>
+			</div>
+
+			<!-- 使用言語 -->
+			<div class="mt-4 md:grid md:grid-cols-6 items-center">
+				<label for="languages" th:text="使用言語" th:class="${classForLabel}"></label>
+				<input
+					type="text" th:field="*{languages}" th:class="${classForInput} + ' col-span-5'"
+					placeholder="PHP、JAVAなど" required
+				>
+				<p th:errors="*{languages}" th:class="${classForError} + ' col-start-2 col-span-5'"></p>
+			</div>
+
+			<!-- 制作期間 -->
+			<div class="mt-4 md:grid md:grid-cols-6 items-center">
+				<label for="creationTime" th:text="制作期間" th:class="${classForLabel}"></label>
+				<input
+					type="number" th:field="*{creationTime}" min="0" th:class="${classForInput} + ' col-start-2'"
+				>
+				<div class="ml-2">ヶ月</div>
+				<p th:errors="*{creationTime}" th:class="${classForError} + ' col-start-2 col-span-5'"></p>
+			</div>
+
+			<!-- 自由記入 -->
+			<div class="mt-4 md:grid md:grid-cols-6 items-center">
+				<label for="description" th:text="自由記入" th:class="${classForLabel}"></label>
+				<textarea
+					th:field="*{description}" th:class="${classForTextarea} + ' col-span-5 h-48'"
+					placeholder="頑張った点など自由に記入してください"
+				></textarea>
+				<p th:errors="*{description}" th:class="${classForError} + ' col-start-2 col-span-5'"></p>
+			</div>
+
+			<div class="mt-8 text-center">
+				<th:block th:if="${workForm.id}">
+					<button th:text="更新" th:class="${classForButton} + ' rounded-full w-36'"></button>
+					<button th:text="削除" th:class="${classForButton} + ' rounded-full w-36'"
+							th:form="'delete-' + ${workForm.id}"
+					></button>
+				</th:block>
+				<th:block th:unless="${workForm.id}">
+					<button th:text="追加" th:class="${classForButton} + ' rounded-full w-36'"></button>
+				</th:block>
+			</div>
+		</form>
+
+		<form th:if="${workForm.id}" th:id="'delete-' + ${workForm.id}" th:method="delete"
+			th:action="@{/admin/job-finders/{id}/works/{workId}(id=__${jobFinder.id}__,workId=__${workForm.id}__)}"
+		></form>
+	</div>
+
+</div>

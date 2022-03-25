@@ -14,4 +14,5 @@ public interface JobFinderService {
 	public Optional<JobFinder> getById(int id);
 	public Optional<JobFinder> getByName(String name);
 	public void register(JobFinder jobFinder);
+	public void delete(int id);
 }

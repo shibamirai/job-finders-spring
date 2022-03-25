@@ -1,5 +1,6 @@
 package katachi.jobfinders.controller;
 
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -12,13 +13,13 @@ import katachi.jobfinders.exception.NotFoundException;
 @ControllerAdvice
 public class BaseControllerAdvice {
 
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        binder.initDirectFieldAccess();
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		binder.initDirectFieldAccess();
 
-        // Formの未入力項目を空文字でなくnullにする場合は、以下のコメントを外す
-        //binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
-    }
+		// Formの未入力項目を空文字でなくnullにする場合は、以下のコメントを外す
+		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+	}
 
 	@ExceptionHandler(NotFoundException.class)
 	public String notFoundExceptionHandler(NotFoundException e, Model model) {

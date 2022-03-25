@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="katachi.jobfinders.repository.WorkMapper">
+
+	<resultMap type="katachi.jobfinders.domain.model.Work" id="work">
+		<id column="id" property="id"></id>
+		<result column="job_finder_id" property="jobFinderId"></result>
+		<result column="content" property="content"></result>
+		<result column="title" property="title"></result>
+		<result column="url" property="url"></result>
+		<result column="languages" property="languages"></result>
+		<result column="creation_time" property="creationTime"></result>
+		<result column="description" property="description"></result>
+		<result column="created_at" property="createdAt"></result>
+		<result column="updated_at" property="updatedAt"></result>
+	</resultMap>
+
+	<insert id="insertOrUpdate" parameterType="katachi.jobfinders.domain.model.Work">
+		INSERT INTO works (
+			id,
+			job_finder_id,
+			content,
+			title,
+			url,
+			languages,
+			creation_time,
+			description
+		) VALUES (
+			#{id},
+			#{jobFinderId},
+			#{content},
+			#{title},
+			#{url},
+			#{languages},
+			#{creationTime},
+			#{description}
+		)
+		ON DUPLICATE KEY UPDATE
+			id = VALUES(id),
+			job_finder_id = VALUES(job_finder_id),
+			content = VALUES(content),
+			title = VALUES(title),
+			url = VALUES(url),
+			languages = VALUES(languages),
+			creation_time = VALUES(creation_time),
+			description = VALUES(description)
+	</insert>
+
+	<delete id="delete">
+		DELETE from works
+		WHERE id = #{id}
+	</delete>
+</mapper>

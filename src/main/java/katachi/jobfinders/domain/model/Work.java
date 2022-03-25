@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Work {
-	private int id;
-	private int jobFinderId;
+	private Integer id;
+	private Integer jobFinderId;
 	private String content;
 	private String title;
 	private String url;
@@ -20,14 +20,30 @@ public class Work {
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 
-	public Optional<Integer> getCreationTime() {
-		return Optional.ofNullable(creationTime);
+	public Work(
+		Integer id,
+		Integer jobFinderId,
+		String content,
+		String title,
+		String url,
+		String languages,
+		Integer creationTime,
+		String description
+	) {
+		this.id = id;
+		this.jobFinderId = jobFinderId;
+		this.content = content;
+		this.title = title;
+		this.url = url;
+		this.languages = languages;
+		this.creationTime = creationTime;
+		this.description = description;
 	}
 
 	public String getPeriodOfCreation() {
 		String periodOfCreation = "制作期間不明";
 
-		Optional<Integer> creationTime = getCreationTime();
+		Optional<Integer> creationTime = Optional.ofNullable(this.creationTime);
 		if (creationTime.isPresent()) {
 			int year = creationTime.get() / 12;
 			int month = creationTime.get() % 12;

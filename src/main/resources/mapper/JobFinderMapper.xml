@@ -97,7 +97,7 @@
 			works.title			as works_title,
 			works.url			as works_url,
 			works.languages		as works_languages,
-			works.creation_time	as works_creationTime,
+			works.creation_time	as works_creation_time,
 			works.description	as works_description,
 			works.created_at	as works_createdAt,
 			works.updated_at	as works_updatedAt
@@ -130,7 +130,7 @@
 			works.title			as works_title,
 			works.url			as works_url,
 			works.languages		as works_languages,
-			works.creation_time	as works_creationTime,
+			works.creation_time	as works_creation_time,
 			works.description	as works_description,
 			works.created_at	as works_createdAt,
 			works.updated_at	as works_updatedAt
@@ -187,4 +187,8 @@
 			is_handicaps_opened = VALUES(is_handicaps_opened)
 	</insert>
 
+	<delete id="delete">
+		DELETE from job_finders
+		WHERE id = #{id}
+	</delete>
 </mapper>

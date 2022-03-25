@@ -52,4 +52,9 @@ public class JobFinderServiceImpl implements JobFinderService {
 		mapper.insertOrUpdate(jobFinder);
 	}
 
+	@Override
+	public void delete(int id) {
+		mapper.delete(id);
+	}
+
 }

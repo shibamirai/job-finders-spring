@@ -16,4 +16,5 @@ public interface JobFinderMapper {
 	public JobFinder selectById(int id);
 	public JobFinder selectByName(String name);
 	void insertOrUpdate(JobFinder record);
+	void delete(int id);
 }

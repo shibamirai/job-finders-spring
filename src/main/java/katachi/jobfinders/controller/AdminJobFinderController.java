@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -141,13 +142,24 @@ public class AdminJobFinderController {
 			redirectAttributes.addFlashAttribute(jobFinder.orElseThrow(NotFoundException::new));
 			redirectAttributes.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "jobFinderForm", bindingResult);
 			redirectAttributes.addFlashAttribute(form);
-			return "redirect:/admin/job-finders/create";
+			return "redirect:/admin/job-finders/" + id + "/edit";
 		}
 
 		jobFinderService.register(form.toJobFinder());
 
 		redirectAttributes.addFlashAttribute("success", form.getName() + "さんの情報を更新しました");
-		return "redirect:/admin/job-finders";
+		return "redirect:/admin/job-finders/" + id + "/edit";
 	}
 
+	@DeleteMapping("/{id}")
+	public String destroy(@PathVariable int id, Model model, RedirectAttributes redirectAttributes) {
+		Optional<JobFinder> jobFinder = jobFinderService.getById(id);
+		model.addAttribute(jobFinder.orElseThrow(NotFoundException::new));
+
+		jobFinderService.delete(id);
+
+		redirectAttributes.addFlashAttribute("success", jobFinder.get().getName() + "さんを削除しました");
+		return "redirect:/admin/job-finders";
+		
+	}
 }

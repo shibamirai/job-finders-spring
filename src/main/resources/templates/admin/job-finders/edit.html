@@ -15,7 +15,7 @@
 		<nav class="max-w-4xl mx-auto">
 			<ul class="flex text-center">
 				<li class="flex-1 py-2 rounded-t-md text-sm font-medium"
-					th:classappend="${open == null || open == -1} ? 'bg-white' : 'bg-gray-200 text-gray-400 hover:text-gray-700'"
+					th:classappend="${workForm == null} ? 'bg-white' : 'bg-gray-200 text-gray-400 hover:text-gray-700'"
 				>
 					<a th:href="@{/admin/job-finders/{id}/edit(id=${jobFinder.id})}"
 						th:text="${jobFinder.name} + 'さんについて'"
@@ -24,33 +24,28 @@
 
 				<li th:each="work: ${jobFinder.works}"
 					class="flex-1 py-2 rounded-t-md text-sm font-medium"
-					th:classappend="${open != null && open == work.id} ? 'bg-white' : 'bg-gray-200 text-gray-400 hover:text-gray-700'"
+					th:classappend="${workForm != null && workForm.id == work.id} ? 'bg-white' : 'bg-gray-200 text-gray-400 hover:text-gray-700'"
 				>
 					<a th:href="@{/admin/job-finders/{id}/works/{workId}/edit(id=${jobFinder.id},workId=${work.id})}"
-						th:text="'作品「' + ${work.content}"
+						th:text="'作品「' + ${work.content} + '」'"
 					></a>
 				</li>
 
 				<li class="flex-1 py-2 rounded-t-md text-sm font-medium"
-					th:classappend="${open != null && open == 0} ? 'bg-white' : 'bg-gray-200 text-gray-400 hover:text-gray-700'"
+					th:classappend="${workForm != null && workForm.id == null} ? 'bg-white' : 'bg-gray-200 text-gray-400 hover:text-gray-700'"
 				>
-					<a th:href="@{/admin/job-finders/{id}/works(id=${jobFinder.id})}"
+					<a th:href="@{/admin/job-finders/{id}/works/create(id=${jobFinder.id})}"
 						th:text="ポートフォリオ追加"
 					></a>
 				</li>
 			</ul>
 		</nav>
 
-		<div th:if="${open} != null">
-			<div th:if="${open} == 0">
-				ポートフォリオ新規作成
-			</div>
-			<div th:unless="${open} == 0">
-				ポートフォリオ編集
-			</div>
-		</div>
-		<div th:if="${open} == null">
+		<div th:if="${workForm} == null">
 			<div th:replace="~{components/job-finder :: form}"></div>
+		</div>
+		<div th:unless="${workForm} == null">
+			<div th:replace="~{components/portfolio :: form}"></div>
 		</div>
 	</div>
 </body>
