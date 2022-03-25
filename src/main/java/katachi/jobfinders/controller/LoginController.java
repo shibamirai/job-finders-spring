@@ -1,4 +1,4 @@
-package katachi.jobfinders.controller.login;
+package katachi.jobfinders.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
