@@ -1,22 +1,17 @@
 {
-  "name": "job-finders-spring",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "postcss src/main/resources/static/css/app.css -o target/classes/static/css/app.css",
-    "watch": "postcss src/main/resources/static/css/app.css -o target/classes/static/css/app.css -w"
+    "dev": "webpack --mode development & postcss src/main/resources/static/css/app.css -o target/classes/static/css/app.css",
+    "production": "webpack --mode production & postcss src/main/resources/static/css/app.css -o target/classes/static/css/app.css",
+    "watch": "webpack --mode development --watch & postcss src/main/resources/static/css/app.css -o target/classes/static/css/app.css -w"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.0",
-    "alpinejs": "^3.9.1",
+    "alpinejs": "^3.9.4",
     "autoprefixer": "^10.4.2",
     "postcss": "^8.4.8",
     "postcss-cli": "^9.1.0",
-    "tailwindcss": "^3.0.23"
+    "tailwindcss": "^3.0.23",
+    "webpack": "^5.70.0",
+    "webpack-cli": "^4.9.2"
   }
 }

@@ -90,6 +90,7 @@
 	       <resource>
 	           <directory>src/main/resources</directory>
 	           <excludes>
+	               <exclude>**/app.js</exclude>
 	               <exclude>**/app.css</exclude>
 	           </excludes>
 	       </resource>
