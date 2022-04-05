@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 
 import katachi.jobfinders.exception.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @ControllerAdvice
 public class BaseControllerAdvice {
 
@@ -33,6 +35,8 @@ public class BaseControllerAdvice {
 
 	@ExceptionHandler(Exception.class)
 	public String exceptionHandler(Exception e, Model model) {
+		log.error(e.getLocalizedMessage());
+		e.printStackTrace();
 
 		model.addAttribute("error", e.getClass().getSimpleName());
 		model.addAttribute("message", e.getCause());

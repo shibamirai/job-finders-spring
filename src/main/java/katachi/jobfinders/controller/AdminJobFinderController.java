@@ -1,14 +1,15 @@
 package katachi.jobfinders.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,22 +41,32 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminJobFinderController {
 
 	@Autowired
+	ResourceLoader resourceLoader;
+	
+	@Autowired
 	JobFinderService jobFinderService;
 
 	@ModelAttribute("avatars")
 	String[] avatars() throws IOException {
-		File dir = new ClassPathResource("static/avatar").getFile();
+//		アプリをjarファイルにするとgetFile()が使えないのでこの方法は不可
+//		File dir = new ClassPathResource("static/avatar").getFile();
+//		ArrayList<File> avatars = new ArrayList<File>();
+//		Collections.addAll(
+//			avatars,
+//			dir.listFiles(
+//				file -> file.getName().endsWith(".jpg") ? true : false
+//			)
+//		);
+//
+//		return avatars.stream()
+//				.map(file -> file.getName())
+//				.toArray(String[]::new);
 
-		ArrayList<File> avatars = new ArrayList<File>();
-		Collections.addAll(
-			avatars,
-			dir.listFiles(
-				file -> file.getName().endsWith(".jpg") ? true : false
-			)
-		);
+		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+		Resource[] resources = resolver.getResources("classpath:static/avatar/*.jpg");
 
-		return avatars.stream()
-				.map(file -> file.getName())
+		return Arrays.stream(resources)
+				.map(resource -> resource.getFilename())
 				.toArray(String[]::new);
 	}
 
